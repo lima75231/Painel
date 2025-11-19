@@ -56,7 +56,7 @@
   margin-top: 0.2rem;
   color: #e5e7eb;
 }
-
+  
     .filtros {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -208,6 +208,22 @@
         grid-template-columns: 1fr;
       }
     }
+
+    .info-atualizacao {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 0.9rem 1.2rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  font-size: 0.9rem;
+}
+
+.info-atualizacao p {
+  margin: 0.2rem 0;
+  color: #374151;
+}
+
   </style>
 </head>
 <body>
@@ -220,6 +236,10 @@
         <p><strong>Tipo:</strong> Hospital Geral</p>
     </div>
 </header>
+    <div class="info-atualizacao">
+        <p><strong>Última atualização:</strong> <span id="dataAtualizacao"></span></p>
+        <p><strong>Fonte dos dados:</strong> Planilha local - Competências e atendimentos</p>
+    </div>
 
     <!-- FILTROS -->
     <section class="filtros">
@@ -647,6 +667,12 @@
         selectFonte.appendChild(opt);
       });
     }
+
+    // Define automaticamente a data atual (hoje)
+        const hoje = new Date();
+        document.getElementById("dataAtualizacao").textContent =
+        hoje.toLocaleDateString("pt-BR");
+
 
     function atualizarPainel() {
       const listaFiltrada = aplicarFiltros();
