@@ -346,11 +346,11 @@
   { ano: 2022, mes: 5, fonte: "Gratuito", quantidade: 30 },
   { ano: 2022, mes: 6, fonte: "Gratuito", quantidade: 9 },
   { ano: 2022, mes: 7, fonte: "Gratuito", quantidade: 33 },
-  { ano: 2022, mes: 8, fonte: "Gratuito", quantidade: 0 },
-  { ano: 2022, mes: 9, fonte: "Gratuito", quantidade: 0 },
-  { ano: 2022, mes: 10, fonte: "Gratuito", quantidade: 0 },
-  { ano: 2022, mes: 11, fonte: "Gratuito", quantidade: 0 },
-  { ano: 2022, mes: 12, fonte: "Gratuito", quantidade: 0 },
+  { ano: 2022, mes: 8, fonte: "Gratuito", quantidade: 104 },
+  { ano: 2022, mes: 9, fonte: "Gratuito", quantidade: 107 },
+  { ano: 2022, mes: 10, fonte: "Gratuito", quantidade: 95 },
+  { ano: 2022, mes: 11, fonte: "Gratuito", quantidade: 80 },
+  { ano: 2022, mes: 12, fonte: "Gratuito", quantidade: 78 },
 
   // 2023
   { ano: 2023, mes: 1, fonte: "Gratuito", quantidade: 0 },
@@ -669,35 +669,29 @@
     }
 
     // Define automaticamente a data atual (hoje)
-        const hoje = new Date();
-        document.getElementById("dataAtualizacao").textContent =
-        hoje.toLocaleDateString("pt-BR");
+        // ==== DATA BASEADA NA ÚLTIMA COMPETÊNCIA ====
+function atualizarDataDeAtualizacao() {
+  if (!dados.length) return;
 
+  // Encontra o maior ano
+  const maiorAno = Math.max(...dados.map(d => d.ano));
 
-    function atualizarPainel() {
-      const listaFiltrada = aplicarFiltros();
-      const anoSelecionado = selectAno.value;
+  // Filtra os meses do maior ano
+  const mesesDoMaiorAno = dados
+    .filter(d => d.ano === maiorAno)
+    .map(d => d.mes);
 
-      atualizarKPIs(listaFiltrada);
-      atualizarTabela(listaFiltrada);
+  const maiorMes = Math.max(...mesesDoMaiorAno);
 
-      // Agrupamentos
-      const mapaAno = agruparPorAno(listaFiltrada);
-      const mapaFonte = agruparPorFonte(listaFiltrada);
-      const mapaMes = agruparPorMes(listaFiltrada, anoSelecionado);
+  // Nome do mês
+  const mesesExtenso = [
+    "", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
 
-      criarOuAtualizarGraficoAno(mapaAno);
-      criarOuAtualizarGraficoFonte(mapaFonte);
-      criarOuAtualizarGraficoMes(mapaMes);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      popularFiltrosIniciais();
-      atualizarPainel();
-
-      selectAno.addEventListener('change', atualizarPainel);
-      selectFonte.addEventListener('change', atualizarPainel);
-    });
+  const textoData = `${mesesExtenso[maiorMes]}/${maiorAno}`;
+  spanDataAtualizacao.textContent = textoData;
+}
   </script>
 </body>
 </html>
