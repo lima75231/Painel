@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel de Produção – Estabelecimento de Saúde</title>
 
-  <!-- Chart.js para os gráficos -->
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -19,11 +19,7 @@
       --cor-borda: #e5e7eb;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -32,31 +28,44 @@
       padding: 1.5rem;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* Cabeçalho institucional */
     .header-estabelecimento {
-  background: linear-gradient(90deg, #1f2937, #374151);
-  color: #fff;
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
+      background: linear-gradient(90deg, #1f2937, #374151);
+      color: #fff;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
 
-.header-estabelecimento h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.3rem;
-}
+    .header-estabelecimento h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
 
-.header-estabelecimento p {
-  font-size: 0.9rem;
-  margin-top: 0.2rem;
-  color: #e5e7eb;
-}
-  
+    .header-estabelecimento p {
+      font-size: 0.9rem;
+      margin-top: 0.2rem;
+      color: #e5e7eb;
+    }
+
+    /* Info atualização */
+    .info-atualizacao {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      padding: 0.9rem 1.2rem;
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      font-size: 0.9rem;
+    }
+
+    .info-atualizacao p { margin: 0.2rem 0; color: #374151; }
+
+    /* Filtros */
     .filtros {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -88,9 +97,9 @@
       border-radius: 0.5rem;
       border: 1px solid var(--cor-borda);
       font-size: 0.9rem;
-      outline: none;
     }
 
+    /* KPIs */
     .kpis {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -106,24 +115,11 @@
       box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
     }
 
-    .kpi-label {
-      font-size: 0.8rem;
-      color: var(--cor-texto-secundario);
-      margin-bottom: 0.25rem;
-    }
+    .kpi-label { font-size: 0.8rem; color: var(--cor-texto-secundario); }
+    .kpi-valor { font-size: 1.3rem; font-weight: 700; color: var(--cor-primaria); }
+    .kpi-extra { font-size: 0.75rem; color: var(--cor-texto-secundario); }
 
-    .kpi-valor {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--cor-primaria);
-    }
-
-    .kpi-extra {
-      font-size: 0.75rem;
-      color: var(--cor-texto-secundario);
-      margin-top: 0.15rem;
-    }
-
+    /* Gráficos */
     .grid-graficos {
       display: grid;
       grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
@@ -139,192 +135,108 @@
       box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
     }
 
-    .card h2 {
-      font-size: 1rem;
-      margin-bottom: 0.4rem;
-      color: var(--cor-primaria);
-    }
+    .card h2 { font-size: 1rem; margin-bottom: 0.4rem; color: var(--cor-primaria); }
 
-    .card p {
-      font-size: 0.8rem;
-      color: var(--cor-texto-secundario);
-      margin-bottom: 0.5rem;
-    }
-
-    .card canvas {
-      max-height: 280px;
-    }
-
+    /* Tabela */
     .tabela-wrapper {
       background: var(--cor-card);
       border-radius: 0.9rem;
+      padding: 0.9rem 1rem;
       border: 1px solid var(--cor-borda);
       box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
-      padding: 0.9rem 1rem;
       overflow-x: auto;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-    }
-
-    thead {
-      background: #f9fafb;
-    }
-
-    th, td {
-      padding: 0.5rem 0.6rem;
-      border-bottom: 1px solid #e5e7eb;
-      text-align: left;
-      white-space: nowrap;
-    }
-
-    th {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--cor-texto-secundario);
-    }
-
-    tbody tr:nth-child(even) {
-      background: #f9fafb;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.1rem 0.5rem;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      background: #dbeafe;
-      color: var(--cor-secundaria);
-    }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: #f9fafb; }
+    th, td { padding: 0.5rem; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
+    tbody tr:nth-child(even) { background: #f9fafb; }
 
     @media (max-width: 900px) {
-      .grid-graficos {
-        grid-template-columns: 1fr;
-      }
+      .grid-graficos { grid-template-columns: 1fr; }
     }
-
-    .info-atualizacao {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  padding: 0.9rem 1.2rem;
-  border-radius: 0.75rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-  font-size: 0.9rem;
-}
-
-.info-atualizacao p {
-  margin: 0.2rem 0;
-  color: #374151;
-}
-
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="header-estabelecimento">
-        <div class="estab-info">
-        <h1>HOSPITAL SÃO DANIEL COMBONI</h1>
-        <p><strong>CNES:</strong> 6926401</p>
-        <p><strong>Município:</strong> Cacoal - RO</p>
-        <p><strong>Tipo:</strong> Hospital Geral</p>
-    </div>
-</header>
-    <div class="info-atualizacao">
-        <p><strong>Última atualização:</strong> <span id="dataAtualizacao"></span></p>
-        <p><strong>Fonte dos dados:</strong> Planilha local - Competências e atendimentos</p>
-    </div>
 
-    <!-- FILTROS -->
-    <section class="filtros">
-      <div class="filtro-card">
-        <label for="filtroAno">Ano de competência</label>
-        <select id="filtroAno">
-          <option value="todos">Todos</option>
-        </select>
-      </div>
-      <div class="filtro-card">
-        <label for="filtroFonte">Fonte de remuneração</label>
-        <select id="filtroFonte">
-          <option value="todas">Todas</option>
-        </select>
-      </div>
-    </section>
+<div class="container">
 
-    <!-- KPIs -->
-    <section class="kpis">
-      <div class="kpi-card">
-        <div class="kpi-label">Total de atendimentos (filtro atual)</div>
-        <div class="kpi-valor" id="kpiTotal"></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Anos no painel</div>
-        <div class="kpi-valor" id="kpiAnos"></div>
-        <div class="kpi-extra">Com base nos dados disponíveis</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Fontes de remuneração</div>
-        <div class="kpi-valor" id="kpiFontes"></div>
-        <div class="kpi-extra">Ex.: SUS, particular, convênio</div>
-      </div>
-    </section>
+  <!-- Cabeçalho -->
+  <header class="header-estabelecimento">
+    <h1>HOSPITAL SÃO DANIEL COMBONI</h1>
+    <p><strong>CNES:</strong> 6926401</p>
+    <p><strong>Município:</strong> Cacoal - RO</p>
+    <p><strong>Tipo:</strong> Hospital Geral</p>
+  </header>
 
-    <!-- GRÁFICOS -->
-    <section class="grid-graficos">
-      <div class="card">
-        <h2>Produção por ano</h2>
-        <p>Total de atendimentos por ano (considerando filtros de fonte).</p>
-        <canvas id="graficoAno"></canvas>
-      </div>
-
-      <div class="card">
-        <h2>Produção por fonte</h2>
-        <p>Distribuição dos atendimentos por fonte de remuneração.</p>
-        <canvas id="graficoFonte"></canvas>
-      </div>
-    </section>
-
-    <section class="card" style="margin-bottom: 1.5rem;">
-      <h2>Produção mensal (por ano selecionado)</h2>
-      <p>Quantidade de atendimentos por mês no ano filtrado.</p>
-      <canvas id="graficoMes"></canvas>
-    </section>
-
-    <!-- TABELA -->
-    <section class="tabela-wrapper">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-        <h2 style="font-size: 0.95rem;">Detalhamento dos registros</h2>
-        <span class="badge" id="badgeRegistros"></span>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Ano</th>
-            <th>Mês</th>
-            <th>Fonte</th>
-            <th>Quantidade</th>
-          </tr>
-        </thead>
-        <tbody id="tabelaCorpo"></tbody>
-      </table>
-    </section>
+  <!-- Atualização -->
+  <div class="info-atualizacao">
+    <p><strong>Última atualização:</strong> <span id="dataAtualizacao"></span></p>
+    <p><strong>Fonte dos dados:</strong> Planilha local - Competências e atendimentos</p>
   </div>
 
-  <script>
-    // ==========================
-    // 1) DADOS DE EXEMPLO
-    // ==========================
-    // ➜ Substitua esse array com os dados da sua planilha.
-    // Estrutura: ano, mes (1-12), fonte, quantidade.
+  <!-- FILTROS -->
+  <section class="filtros">
+    <div class="filtro-card">
+      <label for="filtroAno">Ano</label>
+      <select id="filtroAno"><option value="todos">Todos</option></select>
+    </div>
 
-    const dados = [
-  // 2021
+    <div class="filtro-card">
+      <label for="filtroFonte">Fonte</label>
+      <select id="filtroFonte"><option value="todas">Todas</option></select>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <section class="kpis">
+    <div class="kpi-card">
+      <div class="kpi-label">Total (filtro atual)</div>
+      <div class="kpi-valor" id="kpiTotal"></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Anos incluídos</div>
+      <div class="kpi-valor" id="kpiAnos"></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Fontes</div>
+      <div class="kpi-valor" id="kpiFontes"></div>
+    </div>
+  </section>
+
+  <!-- GRÁFICOS -->
+  <section class="grid-graficos">
+    <div class="card">
+      <h2>Produção por Ano</h2>
+      <canvas id="graficoAno"></canvas>
+    </div>
+    <div class="card">
+      <h2>Por Fonte</h2>
+      <canvas id="graficoFonte"></canvas>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Produção Mensal</h2>
+    <canvas id="graficoMes"></canvas>
+  </section>
+
+  <!-- TABELA -->
+  <section class="tabela-wrapper">
+    <h2 style="margin-bottom: 0.5rem;">Detalhamento</h2>
+    <table>
+      <thead>
+        <tr><th>Ano</th><th>Mês</th><th>Fonte</th><th>Quantidade</th></tr>
+      </thead>
+      <tbody id="tabelaCorpo"></tbody>
+    </table>
+  </section>
+
+</div>
+
+<script>
+
+const dados = [
   { ano: 2021, mes: 1, fonte: "Gratuito", quantidade: 1166 },
   { ano: 2021, mes: 2, fonte: "Gratuito", quantidade: 425 },
   { ano: 2021, mes: 3, fonte: "Gratuito", quantidade: 0 },
@@ -338,7 +250,6 @@
   { ano: 2021, mes: 11, fonte: "Gratuito", quantidade: 0 },
   { ano: 2021, mes: 12, fonte: "Gratuito", quantidade: 0 },
 
-  // 2022
   { ano: 2022, mes: 1, fonte: "Gratuito", quantidade: 73 },
   { ano: 2022, mes: 2, fonte: "Gratuito", quantidade: 37 },
   { ano: 2022, mes: 3, fonte: "Gratuito", quantidade: 61 },
@@ -352,21 +263,14 @@
   { ano: 2022, mes: 11, fonte: "Gratuito", quantidade: 80 },
   { ano: 2022, mes: 12, fonte: "Gratuito", quantidade: 78 },
 
-  // 2023
-  { ano: 2023, mes: 1, fonte: "Gratuito", quantidade: 0 },
-  { ano: 2023, mes: 2, fonte: "Gratuito", quantidade: 0 },
-  { ano: 2023, mes: 3, fonte: "Gratuito", quantidade: 0 },
-  { ano: 2023, mes: 4, fonte: "Gratuito", quantidade: 0 },
   { ano: 2023, mes: 5, fonte: "Gratuito", quantidade: 24 },
   { ano: 2023, mes: 6, fonte: "Gratuito", quantidade: 256 },
   { ano: 2023, mes: 7, fonte: "Gratuito", quantidade: 309 },
-  { ano: 2023, mes: 8, fonte: "Gratuito", quantidade: 0 },
   { ano: 2023, mes: 9, fonte: "Gratuito", quantidade: 810 },
   { ano: 2023, mes: 10, fonte: "Gratuito", quantidade: 312 },
   { ano: 2023, mes: 11, fonte: "Gratuito", quantidade: 849 },
   { ano: 2023, mes: 12, fonte: "Gratuito", quantidade: 27 },
 
-  // 2024
   { ano: 2024, mes: 1, fonte: "Gratuito", quantidade: 24 },
   { ano: 2024, mes: 2, fonte: "Gratuito", quantidade: 29 },
   { ano: 2024, mes: 3, fonte: "Gratuito", quantidade: 33 },
@@ -380,7 +284,6 @@
   { ano: 2024, mes: 11, fonte: "Gratuito", quantidade: 145 },
   { ano: 2024, mes: 12, fonte: "Gratuito", quantidade: 29 },
 
-  // 2025
   { ano: 2025, mes: 1, fonte: "Gratuito", quantidade: 58 },
   { ano: 2025, mes: 2, fonte: "Gratuito", quantidade: 66 },
   { ano: 2025, mes: 3, fonte: "Gratuito", quantidade: 53 },
@@ -393,308 +296,157 @@
   { ano: 2025, mes: 10, fonte: "Gratuito", quantidade: 0 },
 ];
 
+const MESES_LABEL = ["","Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
 
-    // ==========================
-    // 2) VARIÁVEIS GLOBAIS E GRÁFICOS
-    // ==========================
-    const selectAno = document.getElementById('filtroAno');
-    const selectFonte = document.getElementById('filtroFonte');
-    const kpiTotal = document.getElementById('kpiTotal');
-    const kpiAnos = document.getElementById('kpiAnos');
-    const kpiFontes = document.getElementById('kpiFontes');
-    const tabelaCorpo = document.getElementById('tabelaCorpo');
-    const badgeRegistros = document.getElementById('badgeRegistros');
+const selectAno = document.getElementById("filtroAno");
+const selectFonte = document.getElementById("filtroFonte");
+const kpiTotal = document.getElementById("kpiTotal");
+const kpiAnos = document.getElementById("kpiAnos");
+const kpiFontes = document.getElementById("kpiFontes");
+const tabelaCorpo = document.getElementById("tabelaCorpo");
+const spanDataAtualizacao = document.getElementById("dataAtualizacao");
 
-    let graficoAno = null;
-    let graficoMes = null;
-    let graficoFonte = null;
+let graficoAno, graficoMes, graficoFonte;
 
-    const MESES_LABEL = [
-      '', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-      'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
-    ];
+// ==== DATA BASEADA NA ÚLTIMA COMPETÊNCIA ====
+function atualizarDataDeAtualizacao() {
+  if (!dados.length) return;
 
-    // ==========================
-    // 3) FUNÇÕES AUXILIARES
-    // ==========================
+  const maiorAno = Math.max(...dados.map(d => d.ano));
+  const mesesDoAno = dados.filter(d => d.ano === maiorAno).map(d => d.mes);
+  const maiorMes = Math.max(...mesesDoAno);
 
-    function obterAnosUnicos() {
-      const anos = [...new Set(dados.map(item => item.ano))];
-      return anos.sort((a, b) => a - b);
+  const mesesExtenso = ["", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+  spanDataAtualizacao.textContent = `${mesesExtenso[maiorMes]}/${maiorAno}`;
+}
+
+function obterAnosUnicos() {
+  return [...new Set(dados.map(d => d.ano))].sort();
+}
+
+function obterFontesUnicas() {
+  return [...new Set(dados.map(d => d.fonte))];
+}
+
+function aplicarFiltros() {
+  const ano = selectAno.value;
+  const fonte = selectFonte.value;
+
+  return dados.filter(d =>
+    (ano === "todos" || d.ano == ano) &&
+    (fonte === "todas" || d.fonte === fonte)
+  );
+}
+
+function atualizarKPIs(lista) {
+  kpiTotal.textContent = lista.reduce((s, d) => s + d.quantidade, 0);
+  kpiAnos.textContent = obterAnosUnicos().length;
+  kpiFontes.textContent = obterFontesUnicas().length;
+}
+
+function atualizarTabela(lista) {
+  tabelaCorpo.innerHTML = "";
+  lista.forEach(d => {
+    tabelaCorpo.innerHTML += `
+      <tr>
+        <td>${d.ano}</td>
+        <td>${MESES_LABEL[d.mes]}</td>
+        <td>${d.fonte}</td>
+        <td>${d.quantidade}</td>
+      </tr>`;
+  });
+}
+
+function criarGraficoAno(lista) {
+  const ctx = document.getElementById("graficoAno").getContext("2d");
+  const agrup = {};
+
+  lista.forEach(d => agrup[d.ano] = (agrup[d.ano] || 0) + d.quantidade);
+
+  if (graficoAno) graficoAno.destroy();
+  graficoAno = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: Object.keys(agrup),
+      datasets: [{
+        data: Object.values(agrup),
+        backgroundColor: "rgba(37,99,235,0.7)"
+      }]
     }
+  });
+}
 
-    function obterFontesUnicas() {
-      const fontes = [...new Set(dados.map(item => item.fonte))];
-      return fontes.sort();
+function criarGraficoFonte(lista) {
+  const ctx = document.getElementById("graficoFonte").getContext("2d");
+  const agrup = {};
+
+  lista.forEach(d => agrup[d.fonte] = (agrup[d.fonte] || 0) + d.quantidade);
+
+  if (graficoFonte) graficoFonte.destroy();
+  graficoFonte = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: Object.keys(agrup),
+      datasets: [{
+        data: Object.values(agrup),
+        backgroundColor: ["rgba(37,99,235,0.8)", "rgba(16,185,129,0.8)"]
+      }]
     }
+  });
+}
 
-    function aplicarFiltros() {
-      const anoSelecionado = selectAno.value;
-      const fonteSelecionada = selectFonte.value;
+function criarGraficoMes(lista, anoFiltro) {
+  const ctx = document.getElementById("graficoMes").getContext("2d");
+  const agrup = {};
 
-      return dados.filter(item => {
-        const condAno = anoSelecionado === 'todos' ? true : item.ano.toString() === anoSelecionado;
-        const condFonte = fonteSelecionada === 'todas' ? true : item.fonte === fonteSelecionada;
-        return condAno && condFonte;
-      });
+  lista
+    .filter(d => anoFiltro === "todos" || d.ano == anoFiltro)
+    .forEach(d => agrup[d.mes] = (agrup[d.mes] || 0) + d.quantidade);
+
+  if (graficoMes) graficoMes.destroy();
+  graficoMes = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: Object.keys(agrup).map(m => MESES_LABEL[m]),
+      datasets: [{
+        data: Object.values(agrup),
+        borderColor: "rgba(37,99,235,1)",
+        tension: 0.3
+      }]
     }
+  });
+}
 
-    function agruparPorAno(lista) {
-      const mapa = {};
-      lista.forEach(item => {
-        if (!mapa[item.ano]) mapa[item.ano] = 0;
-        mapa[item.ano] += item.quantidade;
-      });
-      return mapa;
-    }
+function atualizarPainel() {
+  const filtrados = aplicarFiltros();
+  const anoSelecionado = selectAno.value;
 
-    function agruparPorMes(lista, anoFiltro) {
-      const mapa = {};
-      lista
-        .filter(item => anoFiltro === 'todos' ? true : item.ano.toString() === anoFiltro)
-        .forEach(item => {
-          if (!mapa[item.mes]) mapa[item.mes] = 0;
-          mapa[item.mes] += item.quantidade;
-        });
-      return mapa;
-    }
+  atualizarKPIs(filtrados);
+  atualizarTabela(filtrados);
+  criarGraficoAno(filtrados);
+  criarGraficoFonte(filtrados);
+  criarGraficoMes(filtrados, anoSelecionado);
+}
 
-    function agruparPorFonte(lista) {
-      const mapa = {};
-      lista.forEach(item => {
-        if (!mapa[item.fonte]) mapa[item.fonte] = 0;
-        mapa[item.fonte] += item.quantidade;
-      });
-      return mapa;
-    }
+document.addEventListener("DOMContentLoaded", () => {
+  atualizarDataDeAtualizacao();
 
-    // ==========================
-    // 4) ATUALIZAÇÃO DE KPIs E TABELA
-    // ==========================
+  obterAnosUnicos().forEach(a => {
+    selectAno.innerHTML += `<option value="${a}">${a}</option>`;
+  });
 
-    function atualizarKPIs(listaFiltrada) {
-      const total = listaFiltrada.reduce((soma, item) => soma + item.quantidade, 0);
-      kpiTotal.textContent = total.toLocaleString('pt-BR');
+  obterFontesUnicas().forEach(f => {
+    selectFonte.innerHTML += `<option value="${f}">${f}</option>`;
+  });
 
-      const anos = obterAnosUnicos();
-      kpiAnos.textContent = anos.length;
+  atualizarPainel();
 
-      const fontes = obterFontesUnicas();
-      kpiFontes.textContent = fontes.length;
-    }
+  selectAno.addEventListener("change", atualizarPainel);
+  selectFonte.addEventListener("change", atualizarPainel);
+});
 
-    function atualizarTabela(listaFiltrada) {
-      tabelaCorpo.innerHTML = '';
-      listaFiltrada
-        .sort((a, b) => {
-          if (a.ano !== b.ano) return a.ano - b.ano;
-          if (a.mes !== b.mes) return a.mes - b.mes;
-          return a.fonte.localeCompare(b.fonte);
-        })
-        .forEach(item => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${item.ano}</td>
-            <td>${MESES_LABEL[item.mes]}</td>
-            <td>${item.fonte}</td>
-            <td>${item.quantidade.toLocaleString('pt-BR')}</td>
-          `;
-          tabelaCorpo.appendChild(tr);
-        });
-
-      badgeRegistros.textContent = `${listaFiltrada.length} registro(s)`;
-    }
-
-    // ==========================
-    // 5) ATUALIZAÇÃO DOS GRÁFICOS
-    // ==========================
-
-    function criarOuAtualizarGraficoAno(mapaAno) {
-      const ctx = document.getElementById('graficoAno').getContext('2d');
-      const labels = Object.keys(mapaAno).sort();
-      const valores = labels.map(ano => mapaAno[ano]);
-
-      if (graficoAno) graficoAno.destroy();
-
-      graficoAno = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Atendimentos',
-            data: valores,
-            backgroundColor: 'rgba(37, 99, 235, 0.7)',
-            borderColor: 'rgba(37, 99, 235, 1)',
-            borderWidth: 1,
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: context => ` ${context.parsed.y.toLocaleString('pt-BR')} atendimentos`
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                precision: 0
-              }
-            }
-          }
-        }
-      });
-    }
-
-    function criarOuAtualizarGraficoMes(mapaMes) {
-      const ctx = document.getElementById('graficoMes').getContext('2d');
-      const labelsMes = Object.keys(mapaMes)
-        .map(num => parseInt(num))
-        .sort((a, b) => a - b)
-        .map(num => MESES_LABEL[num]);
-
-      const valoresMes = Object.keys(mapaMes)
-        .map(num => parseInt(num))
-        .sort((a, b) => a - b)
-        .map(num => mapaMes[num]);
-
-      if (graficoMes) graficoMes.destroy();
-
-      graficoMes = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labelsMes,
-          datasets: [{
-            label: 'Atendimentos',
-            data: valoresMes,
-            fill: false,
-            borderColor: 'rgba(37, 99, 235, 1)',
-            tension: 0.3,
-            pointRadius: 4,
-            pointBackgroundColor: 'rgba(37, 99, 235, 1)'
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: context => ` ${context.parsed.y.toLocaleString('pt-BR')} atendimentos`
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                precision: 0
-              }
-            }
-          }
-        }
-      });
-    }
-
-    function criarOuAtualizarGraficoFonte(mapaFonte) {
-      const ctx = document.getElementById('graficoFonte').getContext('2d');
-      const labels = Object.keys(mapaFonte);
-      const valores = labels.map(f => mapaFonte[f]);
-
-      if (graficoFonte) graficoFonte.destroy();
-
-      graficoFonte = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels,
-          datasets: [{
-            data: valores,
-            backgroundColor: [
-              'rgba(37, 99, 235, 0.8)',
-              'rgba(16, 185, 129, 0.8)',
-              'rgba(249, 115, 22, 0.8)',
-              'rgba(234, 179, 8, 0.8)',
-              'rgba(139, 92, 246, 0.8)',
-            ]
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: { boxWidth: 14 }
-            },
-            tooltip: {
-              callbacks: {
-                label: context => {
-                  const total = valores.reduce((s, v) => s + v, 0);
-                  const qtd = context.parsed;
-                  const perc = total > 0 ? (qtd / total) * 100 : 0;
-                  return ` ${context.label}: ${qtd.toLocaleString('pt-BR')} (${perc.toFixed(1)}%)`;
-                }
-              }
-            }
-          },
-          cutout: '60%'
-        }
-      });
-    }
-
-    // ==========================
-    // 6) FLUXO PRINCIPAL
-    // ==========================
-
-     function popularFiltrosIniciais() {
-      const anos = obterAnosUnicos();
-      anos.forEach(ano => {
-        const opt = document.createElement('option');
-        opt.value = ano;
-        opt.textContent = ano;
-        selectAno.appendChild(opt);
-      });
-
-      const fontes = obterFontesUnicas();
-      fontes.forEach(fonte => {
-        const opt = document.createElement('option');
-        opt.value = fonte;
-        opt.textContent = fonte;
-        selectFonte.appendChild(opt);
-      });
-    }
-
-    function atualizarPainel() {
-      const listaFiltrada = aplicarFiltros();
-      const anoSelecionado = selectAno.value;
-
-      atualizarKPIs(listaFiltrada);
-      atualizarTabela(listaFiltrada);
-
-      const mapaAno = agruparPorAno(listaFiltrada);
-      const mapaFonte = agruparPorFonte(listaFiltrada);
-      const mapaMes = agruparPorMes(listaFiltrada, anoSelecionado);
-
-      criarOuAtualizarGraficoAno(mapaAno);
-      criarOuAtualizarGraficoFonte(mapaFonte);
-      criarOuAtualizarGraficoMes(mapaMes);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      // Data de atualização (data atual)
-      const hoje = new Date();
-      spanDataAtualizacao.textContent = hoje.toLocaleDateString("pt-BR");
-
-      popularFiltrosIniciais();
-      atualizarPainel();
-
-      selectAno.addEventListener('change', atualizarPainel);
-      selectFonte.addEventListener('change', atualizarPainel);
-    });
-  </script>
+</script>
 </body>
 </html>
