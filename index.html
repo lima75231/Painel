@@ -650,7 +650,7 @@
     // 6) FLUXO PRINCIPAL
     // ==========================
 
-    function popularFiltrosIniciais() {
+     function popularFiltrosIniciais() {
       const anos = obterAnosUnicos();
       anos.forEach(ano => {
         const opt = document.createElement('option');
@@ -668,30 +668,33 @@
       });
     }
 
-    // Define automaticamente a data atual (hoje)
-        // ==== DATA BASEADA NA ÚLTIMA COMPETÊNCIA ====
-function atualizarDataDeAtualizacao() {
-  if (!dados.length) return;
+    function atualizarPainel() {
+      const listaFiltrada = aplicarFiltros();
+      const anoSelecionado = selectAno.value;
 
-  // Encontra o maior ano
-  const maiorAno = Math.max(...dados.map(d => d.ano));
+      atualizarKPIs(listaFiltrada);
+      atualizarTabela(listaFiltrada);
 
-  // Filtra os meses do maior ano
-  const mesesDoMaiorAno = dados
-    .filter(d => d.ano === maiorAno)
-    .map(d => d.mes);
+      const mapaAno = agruparPorAno(listaFiltrada);
+      const mapaFonte = agruparPorFonte(listaFiltrada);
+      const mapaMes = agruparPorMes(listaFiltrada, anoSelecionado);
 
-  const maiorMes = Math.max(...mesesDoMaiorAno);
+      criarOuAtualizarGraficoAno(mapaAno);
+      criarOuAtualizarGraficoFonte(mapaFonte);
+      criarOuAtualizarGraficoMes(mapaMes);
+    }
 
-  // Nome do mês
-  const mesesExtenso = [
-    "", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-  ];
+    document.addEventListener('DOMContentLoaded', () => {
+      // Data de atualização (data atual)
+      const hoje = new Date();
+      spanDataAtualizacao.textContent = hoje.toLocaleDateString("pt-BR");
 
-  const textoData = `${mesesExtenso[maiorMes]}/${maiorAno}`;
-  spanDataAtualizacao.textContent = textoData;
-}
+      popularFiltrosIniciais();
+      atualizarPainel();
+
+      selectAno.addEventListener('change', atualizarPainel);
+      selectFonte.addEventListener('change', atualizarPainel);
+    });
   </script>
 </body>
 </html>
